@@ -79,9 +79,8 @@ void MainWindow::host_to_ip()
 
                 for (q = hp->h_aliases; *q != 0; q++)
                 {
-                    result.append("\t   Aliases: " + QString(*q) + "\n");
+                    result.append("Aliases: " + QString(*q) + "\n");
                 }
-                result.append('\n');
             }
         }
 
@@ -110,14 +109,6 @@ void MainWindow::ip_to_host()
         char **p;
         char ip_address[256];
 
-        WORD wVersionRequested = MAKEWORD(2, 2);
-        WSADATA wsaData;
-
-        WSAStartup(wVersionRequested, &wsaData);
-
-        addr_p = (struct in_addr *)malloc(sizeof(struct in_addr));
-        addr_p = &my_addr;
-
         QString result = "";
 
         if ((a = inet_addr(arg1.toStdString().c_str())) == 0)
@@ -125,7 +116,14 @@ void MainWindow::ip_to_host()
             result = ("IP Address must be of the form x.x.x.x\n");
             break;
         }
+        
+        WORD wVersionRequested = MAKEWORD(2, 2);
+        WSADATA wsaData;
 
+        WSAStartup(wVersionRequested, &wsaData);
+
+        addr_p = (struct in_addr *)malloc(sizeof(struct in_addr));
+        addr_p = &my_addr;
         strcpy(ip_address, arg1.toStdString().c_str());
         addr_p->s_addr = inet_addr(ip_address);
 
@@ -149,9 +147,8 @@ void MainWindow::ip_to_host()
             result.append("Aliases: \n");
             for (q = hp->h_aliases; *q != 0; q++)
             {
-                result.append("\t" + QString(*q) + "\n");
+                result.append(QString(*q) + "\n");
             }
-            result.append('\n');
         }
 
         print_to_console(result);
@@ -235,7 +232,6 @@ void MainWindow::service_to_port()
             result.append(QString::number(ntohs(sv->s_port)));
         }
 
-        result.append('\n');
         print_to_console(result);
         cleanup();
         break;
