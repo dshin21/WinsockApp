@@ -27,6 +27,9 @@ class MainWindow : public QMainWindow
 
   private:
     Ui::MainWindow *ui;
+
+    void cleanup();
+    bool validate_user_input(QString);
 };
 
 #endif // MAINWINDOW_H

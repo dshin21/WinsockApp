@@ -33,11 +33,14 @@ void MainWindow::host_to_ip()
 
         WSAStartup(wVersionRequested, &wsaData);
 
-        addr_p = (struct in_addr *)malloc(sizeof(struct in_addr));
-        addr_p = &my_addr;
-
         QString arg1 = ui->textbox_input->text();
         QString result = "";
+
+        if(!validate_user_input(arg1)){
+            ui->textbox_output->setText("Please Enter a valid host name.");
+            cleanup();
+            break;
+        }
 
         addr_p = (struct in_addr *)malloc(sizeof(struct in_addr));
         addr_p = &my_addr;
@@ -81,7 +84,7 @@ void MainWindow::host_to_ip()
             }
         }
         ui->textbox_output->setText(result);
-        WSACleanup();
+        cleanup();
         break;
     }
 }
@@ -105,6 +108,13 @@ void MainWindow::ip_to_host()
         addr_p = &my_addr;
 
         QString arg1 = ui->textbox_input->text();
+
+        if(!validate_user_input(arg1)){
+            ui->textbox_output->setText("Please Enter in the form of:\nx.x.x.x");
+            cleanup();
+            break;
+        }
+
         QString result = "";
 
         if ((a = inet_addr(arg1.toStdString().c_str())) == 0)
@@ -141,7 +151,7 @@ void MainWindow::ip_to_host()
             result.append('\n');
         }
         ui->textbox_output->setText(result);
-        WSACleanup();
+        cleanup();
         break;
     }
 }
@@ -156,10 +166,19 @@ void MainWindow::port_to_service()
         WORD wVersionRequested = MAKEWORD(2, 2);
         WSADATA wsaData;
         WSAStartup(wVersionRequested, &wsaData);
+
+        if(!validate_user_input(ui->textbox_input->text())){
+            ui->textbox_output->setText("Please Enter in the form of:\nport protocol");
+            cleanup();
+            break;
+        }
+
         QStringList input = ui->textbox_input->text().split(" ");
         QString arg1 = input.at(0);
         QString arg2 = input.at(1);
         QString result = "";
+
+
 
         s_port = atoi(arg1.toStdString().c_str());
 
@@ -174,7 +193,7 @@ void MainWindow::port_to_service()
         }
         result.append('\n');
         ui->textbox_output->setText(result);
-        WSACleanup();
+        cleanup();
         break;
     }
 }
@@ -188,10 +207,17 @@ void MainWindow::service_to_port()
         WORD wVersionRequested = MAKEWORD(2, 2);
         WSADATA wsaData;
         WSAStartup(wVersionRequested, &wsaData);
+        QString result = "";
+
+        if(!validate_user_input(ui->textbox_input->text())){
+            ui->textbox_output->setText("Please Enter in the form of:\nservice protocol");
+            cleanup();
+            break;
+        }
+
         QStringList input = ui->textbox_input->text().split(" ");
         QString arg1 = input.at(0);
         QString arg2 = input.at(1);
-        QString result = "";
 
         sv = getservbyname(arg1.toStdString().c_str(), arg2.toStdString().c_str());
         if (sv == NULL)
@@ -205,7 +231,21 @@ void MainWindow::service_to_port()
         }
         result.append('\n');
         ui->textbox_output->setText(result);
-        WSACleanup();
+        cleanup();
         break;
     }
+}
+
+void MainWindow::cleanup()
+{
+    ui->textbox_input->clear();
+    WSACleanup();
+}
+
+bool MainWindow::validate_user_input(QString input)
+{
+    if(input.length() == 0){
+        return false;
+    }
+    return true;
 }

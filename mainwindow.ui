@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
+    <width>425</width>
     <height>168</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <widget class="QLineEdit" name="textbox_input">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>70</x>
       <y>10</y>
       <width>251</width>
       <height>21</height>
@@ -27,7 +27,7 @@
    <widget class="QTextEdit" name="textbox_output">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>70</x>
       <y>80</y>
       <width>251</width>
       <height>61</height>
@@ -39,8 +39,8 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>47</width>
-      <height>13</height>
+      <width>51</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -60,13 +60,13 @@
      <string>INPUT:</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>40</y>
-      <width>332</width>
-      <height>25</height>
+      <width>401</width>
+      <height>30</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -106,8 +106,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>336</width>
-     <height>21</height>
+     <width>425</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
