@@ -2,11 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <WinSock2.h>
 
 #pragma comment(lib, "ws2_32.lib")
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -14,17 +15,17 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
+  public slots:
     void host_to_ip();
     void ip_to_host();
     void port_to_service();
     void service_to_port();
 
-private:
+  private:
     Ui::MainWindow *ui;
 };
 
