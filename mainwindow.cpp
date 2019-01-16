@@ -3,7 +3,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
@@ -25,6 +24,16 @@ void MainWindow::host_to_ip()
 {
     while (true)
     {
+        QString arg1 = ui->textbox_input->text();
+        QString result = "";
+
+        if (!validate_user_input(arg1))
+        {
+            ui->textbox_output->setText("Please Enter a valid host name.");
+            cleanup();
+            break;
+        }
+
         struct hostent *hp;
         struct in_addr my_addr, *addr_p;
         char **p;
@@ -33,15 +42,6 @@ void MainWindow::host_to_ip()
         WSADATA wsaData;
 
         WSAStartup(wVersionRequested, &wsaData);
-
-        QString arg1 = ui->textbox_input->text();
-        QString result = "";
-
-        if(!validate_user_input(arg1)){
-            ui->textbox_output->setText("Please Enter a valid host name.");
-            cleanup();
-            break;
-        }
 
         addr_p = (struct in_addr *)malloc(sizeof(struct in_addr));
         addr_p = &my_addr;
@@ -95,6 +95,15 @@ void MainWindow::ip_to_host()
 {
     while (true)
     {
+        QString arg1 = ui->textbox_input->text();
+
+        if (!validate_user_input(arg1))
+        {
+            ui->textbox_output->setText("Please Enter in the form of:\nx.x.x.x");
+            cleanup();
+            break;
+        }
+
         int a;
         struct hostent *hp;
         struct in_addr my_addr, *addr_p;
@@ -108,14 +117,6 @@ void MainWindow::ip_to_host()
 
         addr_p = (struct in_addr *)malloc(sizeof(struct in_addr));
         addr_p = &my_addr;
-
-        QString arg1 = ui->textbox_input->text();
-
-        if(!validate_user_input(arg1)){
-            ui->textbox_output->setText("Please Enter in the form of:\nx.x.x.x");
-            cleanup();
-            break;
-        }
 
         QString result = "";
 
@@ -163,18 +164,19 @@ void MainWindow::port_to_service()
 {
     while (true)
     {
+        if (!validate_user_input(ui->textbox_input->text()))
+        {
+            ui->textbox_output->setText("Please Enter in the form of:\nport protocol");
+            cleanup();
+            break;
+        }
+
         struct servent *sv;
         int s_port;
 
         WORD wVersionRequested = MAKEWORD(2, 2);
         WSADATA wsaData;
         WSAStartup(wVersionRequested, &wsaData);
-
-        if(!validate_user_input(ui->textbox_input->text())){
-            ui->textbox_output->setText("Please Enter in the form of:\nport protocol");
-            cleanup();
-            break;
-        }
 
         QStringList input = ui->textbox_input->text().split(" ");
         QString arg1 = input.at(0);
@@ -204,18 +206,19 @@ void MainWindow::service_to_port()
 {
     while (true)
     {
+        if (!validate_user_input(ui->textbox_input->text()))
+        {
+            ui->textbox_output->setText("Please Enter in the form of:\nservice protocol");
+            cleanup();
+            break;
+        }
+
         struct servent *sv;
 
         WORD wVersionRequested = MAKEWORD(2, 2);
         WSADATA wsaData;
         WSAStartup(wVersionRequested, &wsaData);
         QString result = "";
-
-        if(!validate_user_input(ui->textbox_input->text())){
-            ui->textbox_output->setText("Please Enter in the form of:\nservice protocol");
-            cleanup();
-            break;
-        }
 
         QStringList input = ui->textbox_input->text().split(" ");
         QString arg1 = input.at(0);
@@ -247,7 +250,8 @@ void MainWindow::cleanup()
 
 bool MainWindow::validate_user_input(QString input)
 {
-    if(input.length() == 0){
+    if (input.length() == 0)
+    {
         return false;
     }
 
