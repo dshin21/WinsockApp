@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <WinSock2.h>
-
 #pragma comment(lib, "ws2_32.lib")
 
 namespace Ui
@@ -30,6 +29,7 @@ class MainWindow : public QMainWindow
 
     void cleanup();
     bool validate_user_input(QString);
+    void print_to_console(QString);
 };
 
 #endif // MAINWINDOW_H

@@ -1,5 +1,8 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS 1
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -22,11 +25,9 @@ void MainWindow::host_to_ip()
 {
     while (true)
     {
-        int a;
         struct hostent *hp;
         struct in_addr my_addr, *addr_p;
         char **p;
-        char ip_address[256];
 
         WORD wVersionRequested = MAKEWORD(2, 2);
         WSADATA wsaData;
@@ -83,7 +84,8 @@ void MainWindow::host_to_ip()
                 result.append('\n');
             }
         }
-        ui->textbox_output->setText(result);
+
+        print_to_console(result);
         cleanup();
         break;
     }
@@ -150,7 +152,8 @@ void MainWindow::ip_to_host()
             }
             result.append('\n');
         }
-        ui->textbox_output->setText(result);
+
+        print_to_console(result);
         cleanup();
         break;
     }
@@ -178,8 +181,6 @@ void MainWindow::port_to_service()
         QString arg2 = input.at(1);
         QString result = "";
 
-
-
         s_port = atoi(arg1.toStdString().c_str());
 
         sv = getservbyport(htons(s_port), arg2.toStdString().c_str());
@@ -191,8 +192,9 @@ void MainWindow::port_to_service()
         {
             result = "The service for " + arg2 + " port " + QString::number(s_port) + " is " + sv->s_name;
         }
+
         result.append('\n');
-        ui->textbox_output->setText(result);
+        print_to_console(result);
         cleanup();
         break;
     }
@@ -229,8 +231,9 @@ void MainWindow::service_to_port()
             result = "The port number for " + arg1 + " is ";
             result.append(QString::number(ntohs(sv->s_port)));
         }
+
         result.append('\n');
-        ui->textbox_output->setText(result);
+        print_to_console(result);
         cleanup();
         break;
     }
@@ -247,5 +250,11 @@ bool MainWindow::validate_user_input(QString input)
     if(input.length() == 0){
         return false;
     }
+
     return true;
+}
+
+void MainWindow::print_to_console(QString result)
+{
+    ui->textbox_output->setText(result);
 }
