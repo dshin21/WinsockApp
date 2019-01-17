@@ -1,3 +1,33 @@
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: mainwindow.cpp - A windows program that performs TCP/IP lookup functions.
+--
+-- PROGRAM:     WinsockApp
+--
+-- FUNCTIONS:
+--              void host_to_ip()
+--              void ip_to_host()
+--              void port_to_service()
+--              void service_to_port()
+--              void cleanup()
+--              bool validate_user_input(QString)
+--              void print_to_console(QString)
+--
+-- DATE:        Jan. 16, 2019
+--
+-- REVISIONS:   None
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- NOTES:
+--              This program performs four TCP/IP lookup functions using the Winsock2 API:
+--                  - take a user specified host name and resolve it into a IP address
+--                  - take a user specified IP address and resolve it into host name(s)
+--                  - take a user specified service name/protocol and resolve it into its port number
+--                  - take a user specified port number/protocol and resolve it into its service name
+----------------------------------------------------------------------------------------------------------------------*/
+
 #define _WINSOCK_DEPRECATED_NO_WARNINGS 1
 
 #include "mainwindow.h"
@@ -20,6 +50,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    host_to_ip
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void host_to_ip()
+--
+-- RETURNS:     void
+--
+-- NOTES:
+--              This function is responsible for using the Winsock v2.2 session and searching
+--              to see if the IP address exists, given an host name.
+----------------------------------------------------------------------------------------------------------------------*/
 void MainWindow::host_to_ip()
 {
     while (true)
@@ -90,6 +137,23 @@ void MainWindow::host_to_ip()
     }
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    ip_to_host
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void ip_to_host()
+--
+-- RETURNS:     void
+--
+-- NOTES:
+--              This function is responsible for using the Winsock v2.2 session and searching
+--              to see if the host exists, given an IP address.
+----------------------------------------------------------------------------------------------------------------------*/
 void MainWindow::ip_to_host()
 {
     while (true)
@@ -157,6 +221,23 @@ void MainWindow::ip_to_host()
     }
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    port_to_service
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void port_to_service()
+--
+-- RETURNS:     void
+--
+-- NOTES:
+--              This function is responsible for using the Winsock v2.2 session and searching
+--              to see if the service exists, given the port/protocol combination.
+----------------------------------------------------------------------------------------------------------------------*/
 void MainWindow::port_to_service()
 {
     while (true)
@@ -199,6 +280,23 @@ void MainWindow::port_to_service()
     }
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    service_to_port
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void service_to_port()
+--
+-- RETURNS:     void
+--
+-- NOTES:
+--              This function is responsible for using the Winsock v2.2 session and searching
+--              to see if the port exists, given the service/protocol combination.
+----------------------------------------------------------------------------------------------------------------------*/
 void MainWindow::service_to_port()
 {
     while (true)
@@ -238,12 +336,46 @@ void MainWindow::service_to_port()
     }
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    cleanup
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void cleanup()
+--
+-- RETURNS:     void
+--
+-- NOTES:
+--              This function clears the INPUT textbox after the user selects a button 
+--              and calls WSACleanup() close the Winsock session.
+----------------------------------------------------------------------------------------------------------------------*/
 void MainWindow::cleanup()
 {
     ui->textbox_input->clear();
     WSACleanup();
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    validate_user_input
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void validate_user_input(QString input)
+--
+-- RETURNS:     bool - returns true if user provides an input, false if no input
+--
+-- NOTES:
+--              This function validates to see if the user inputs a value into the
+--              INPUT textbox.
+----------------------------------------------------------------------------------------------------------------------*/
 bool MainWindow::validate_user_input(QString input)
 {
     if (input.length() == 0)
@@ -254,6 +386,23 @@ bool MainWindow::validate_user_input(QString input)
     return true;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:    print_to_console
+--
+-- DATE:        Jan. 16, 2019
+--
+-- DESIGNER:    Daniel Shin
+--
+-- PROGRAMMER:  Daniel Shin
+--
+-- INTERFACE:   void print_to_console(QString result)
+--
+-- RETURNS:     void
+--
+-- NOTES:
+--              This function prints the result (either an error message or the searched result)
+--              to the OUTPUT textbox.
+----------------------------------------------------------------------------------------------------------------------*/
 void MainWindow::print_to_console(QString result)
 {
     ui->textbox_output->setText(result);
