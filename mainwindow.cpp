@@ -26,6 +26,7 @@
 --                  - take a user specified IP address and resolve it into host name(s)
 --                  - take a user specified service name/protocol and resolve it into its port number
 --                  - take a user specified port number/protocol and resolve it into its service name
+--               IMPORTANT NOTE: Please add "WS2_32.Lib" to the project source list.
 ----------------------------------------------------------------------------------------------------------------------*/
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS 1
